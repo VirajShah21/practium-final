@@ -17,52 +17,43 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin
 class UserController {
-    List<User> users;
-    List<Note> notes;
-
-    public UserController() {
-        this.users = new ArrayList<>();
-        this.notes = new ArrayList<>();
-    }
-
     @PostMapping("/users")
     User postUser() {
         User user = new User(UUID.randomUUID().toString(), new Date().getTime());
-        this.users.add(user);
+        UserService service = new UserService();
+        service.createUser(user);
         return user;
     }
 
     @GetMapping("/users")
     List<User> getUsers() {
-        return users;
+        UserService service = new UserService();
+        return service.getUsers();
     }
 
     @PostMapping("/users/{userId}/notes")
     Note postNote(@PathVariable String userId, @RequestBody Map<String, String> body) {
         Note note = new Note(userId, body.get("title"), body.get("content"));
-        this.notes.add(note);
+        NoteService service = new NoteService();
+        service.createNote(note);
         return note;
     }
 
     @GetMapping("/users/{userId}/notes")
     List<Note> getNotes(@PathVariable String userId) {
+        NoteService service = new NoteService();
+        List<Note> allNotes = service.getNotes();
         List<Note> userNotes = new ArrayList<>();
-        for (Note note : notes) {
-            if (note.getUserId().equals(userId)) {
+        for (Note note : allNotes)
+            if (note.getUserId().equals(userId))
                 userNotes.add(note);
-            }
-        }
         return userNotes;
     }
 
     @DeleteMapping("/users/{userId}/notes/{noteId}")
     String deleteNote(@PathVariable String userId, @PathVariable String noteId) {
-        for (Note note : notes) {
-            if (note.getUserId().equals(userId) && note.getNoteId().equals(noteId)) {
-                notes.remove(note);
-                break;
-            }
-        }
+        NoteService service = new NoteService();
+        service.deleteNote(noteId);
         return "The JSON form of the note that was just deleted";
     }
 }
