@@ -3,6 +3,12 @@ package org.virajshah.practicum.finalproject;
 import java.util.Date;
 import java.util.UUID;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIndexHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+
+@DynamoDBTable(tableName = "notes")
 public class Note {
     private String userId;
     private String noteId;
@@ -19,7 +25,7 @@ public class Note {
     }
 
     // Getters and setters for all fields
-
+    @DynamoDBIndexHashKey
     public String getUserId() {
         return userId;
     }
@@ -28,6 +34,7 @@ public class Note {
         this.userId = userId;
     }
 
+    @DynamoDBHashKey
     public String getNoteId() {
         return noteId;
     }
@@ -36,6 +43,7 @@ public class Note {
         this.noteId = noteId;
     }
 
+    @DynamoDBAttribute
     public String getTitle() {
         return title;
     }
@@ -44,6 +52,7 @@ public class Note {
         this.title = title;
     }
 
+    @DynamoDBAttribute
     public String getContent() {
         return content;
     }
@@ -52,6 +61,7 @@ public class Note {
         this.content = content;
     }
 
+    @DynamoDBAttribute
     public long getCreatedDate() {
         return createdDate;
     }
