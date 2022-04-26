@@ -3,6 +3,10 @@ package org.virajshah.practicum.finalproject;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+
+import com.google.zxing.WriterException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -60,5 +64,10 @@ class UserController {
     String deleteNote(@PathVariable String userId, @PathVariable String noteId) {
         noteService.deleteNote(noteId);
         return "The JSON form of the note that was just deleted";
+    }
+
+    @GetMapping("/users/{userId}/qr")
+    byte[] getUserQRCode(@PathVariable String userId) throws WriterException, IOException {
+        return QRCodeGenerator.getQRCodeImage(userId, 300, 300);
     }
 }
