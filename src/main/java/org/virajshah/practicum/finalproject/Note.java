@@ -16,6 +16,9 @@ public class Note {
     private String content;
     private long createdDate;
 
+    public Note() {
+    }
+
     public Note(String userId, String title, String content) {
         this.userId = userId;
         this.noteId = UUID.randomUUID().toString();
@@ -25,7 +28,7 @@ public class Note {
     }
 
     // Getters and setters for all fields
-    @DynamoDBIndexHashKey
+    @DynamoDBAttribute
     public String getUserId() {
         return userId;
     }
