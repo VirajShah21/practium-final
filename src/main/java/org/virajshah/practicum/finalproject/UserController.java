@@ -47,9 +47,12 @@ class UserController {
     List<Note> getNotes(@PathVariable String userId) {
         List<Note> allNotes = noteService.getNotes();
         List<Note> userNotes = new ArrayList<>();
-        for (Note note : allNotes)
+        for (Note note : allNotes) {
+            System.out.println(
+                    "Found note:\t" + note.getTitle() + "\nUser ID:\t" + note.getUserId() + "\nShould Be:\t" + userId);
             if (note.getUserId().equals(userId))
                 userNotes.add(note);
+        }
         return userNotes;
     }
 
